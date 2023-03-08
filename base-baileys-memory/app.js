@@ -211,6 +211,57 @@ const flowPiqueos = addKeyword(['3','piqueos', 'piqueo'])
 	.addAnswer(['Ayudanos con tu dirección para enviar tu pedido.'],{capture: true})
 	.addAnswer(['Listo enviaremos tu pedido, gracias por tu compra'])
 
+	const flowParrillada = addKeyword(['4','parrillada', 'parrilladas'])
+	.addAnswer('Escoge con un numero tu Piqueo')
+	.addAnswer(
+		[
+			'1 *Carne de Res*             $ 3,50', 
+			'2 *Chuleta de Cerdo*         $ 3,50',
+			'3 *Filete de Pollo*          $ 3,50',
+			'4 *Costilla de Cerdo*        $ 6,00',
+			'5 *Parrillada Familiar*     $ 10,00', 
+		],{capture: true},
+
+		async (ctx, {flowDynamic, endFlow}) => {
+			if (ctx.body == 1){
+			combo = '*Carne de Res*'
+			precio = 3.50
+			}
+			if (ctx.body == 2){
+			combo = '*Chuleta de Cerdo*'
+			precio = 3.50
+			}
+			if (ctx.body == 3){
+			combo = '*Filete de Pollo*'
+			precio = 3.50
+			}
+			if (ctx.body == 4){
+			combo = '*Costilla de Cerdo*'
+			precio = 3.50
+			}
+			if (ctx.body == 5){
+			combo = '*Familiar*'
+			precio = 10.00
+			}
+			if (ctx.body != 6)
+			return endFlow({body: 'Opcion no valida', 
+			buttons:[{body:'⬅️ Volver al Inicio' }]
+			})
+		}
+	)
+
+	.addAnswer(['Ingresa la Cantidad de los Parrilladas que deseas'], {capture: true},
+
+		async (ctx, {flowDynamic, endFlow}) => {
+			cant = ctx.body 
+			return flowDynamic(
+				`Tu orden de *${cant}* parrillada ${combo} estara lista en unos minutos, el Valor de tu Orden es de *$ ${cant*precio}*.`,
+			)
+		}
+	 )
+	.addAnswer(['Ayudanos con tu dirección para enviar tu pedido.'],{capture: true})
+	.addAnswer(['Listo enviaremos tu pedido, gracias por tu compra'])	
+
 const flowPrincipal = addKeyword(['hola', 'buenos dias', 'buenas noches', 'ole', 'alo'])
 	.addAnswer('Hola bienvenido a *Amaranto*')
 	.addAnswer(
@@ -220,10 +271,14 @@ const flowPrincipal = addKeyword(['hola', 'buenos dias', 'buenas noches', 'ole',
 			'1 *Alitas*',
 			'2 *Hamburguesas*',
 			'3 *Piqueos*',
+			'4 *Parrilladas*',
+			'5 *Plato Fuertes*',
+			'6 *Mariscos*',
+			'7 *Spaguettis',
 		],
 		null,
 		null,
-		[flowPiqueos, flowHambur, flowAlitas]
+		[flowPiqueos, flowHambur, flowAlitas, flowParrillada]
 	)
 
 const main = async () => {
