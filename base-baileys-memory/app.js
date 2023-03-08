@@ -143,12 +143,12 @@ const flowHambur = addKeyword(['2','hamburguesas', 'hamburguesas', 'burguer'])
 		}
 	)
 
-	.addAnswer(['Ingresa la Cantidad de los Piqueos que deseas'], {capture: true},
+	.addAnswer(['Ingresa la Cantidad de los Hamburguesas que deseas'], {capture: true},
 
 		 async (ctx, {flowDynamic, endFlow}) => {
 			cant = ctx.body 
 			return flowDynamic(
-				`Tu orden de *${cant}* ${combo} estara lista en unos minutos, el Valor de tu Orden es de *$ ${cant*precio}*.`,
+				`Tu orden de *${cant}* Hamburguesas ${combo} estara lista en unos minutos, el Valor de tu Orden es de *$ ${cant*precio}*.`,
 			)
 		}
 	)
@@ -212,7 +212,7 @@ const flowPiqueos = addKeyword(['3','piqueos', 'piqueo'])
 	.addAnswer(['Listo enviaremos tu pedido, gracias por tu compra'])
 
 	const flowParrillada = addKeyword(['4','parrillada', 'parrilladas'])
-	.addAnswer('Escoge con un numero tu Piqueo')
+	.addAnswer('Escoge con un numero tu Parrillada')
 	.addAnswer(
 		[
 			'1 *Carne de Res*             $ 3,50', 
@@ -250,12 +250,93 @@ const flowPiqueos = addKeyword(['3','piqueos', 'piqueo'])
 		}
 	)
 
-	.addAnswer(['Ingresa la Cantidad de los Parrilladas que deseas'], {capture: true},
+	.addAnswer(['Ingresa la Cantidad de Parrilladas que deseas'], {capture: true},
 
 		async (ctx, {flowDynamic, endFlow}) => {
 			cant = ctx.body 
 			return flowDynamic(
-				`Tu orden de *${cant}* parrillada ${combo} estara lista en unos minutos, el Valor de tu Orden es de *$ ${cant*precio}*.`,
+				`Tu orden de *${cant}* Parrillada ${combo} estara lista en unos minutos, el Valor de tu Orden es de *$ ${cant*precio}*.`,
+			)
+		}
+	 )
+	.addAnswer(['Ayudanos con tu dirección para enviar tu pedido.'],{capture: true})
+	.addAnswer(['Listo enviaremos tu pedido, gracias por tu compra'])	
+
+	const flowPlatos = addKeyword(['4','platos', 'platos fuerte', 'fuerte', 'plato'])
+	.addAnswer('Escoge con un numero tu Plato Fuerte')
+	.addAnswer(
+		[
+			'1  *Filete de Res en Salsa de Tocino*        $ 4,50', 
+			'2  *Filete de Res en Salsa de Vino Tinto*    $ 4,50',
+			'3  *Filete de Res en Salsa de Tamarindo*     $ 4,50',
+			'4  *Filete de Pollo a la Mostaza y Miel*     $ 4,50',
+			'5  *Filete de Pollo en Salsa de Champiñones* $ 4,50',
+			'6  *Chuleta de Cerdo en Salsa de Maracuya*   $ 4,50',
+			'7  *Chuleta de Cerdo en Salsa Agridulce*     $ 4,50',
+			'8  *Chuleta de Cerdo en Salsa Ranchera*      $ 4,50',
+			'9  *Costilla de Cerdo en Salsa BBQ*          $ 5,00',
+			'10 *Milanesa de Res o Pollo*                 $ 4,50',
+			'11 *Ensalada del Chef*                       $ 4,50', 
+		],{capture: true},
+
+		async (ctx, {flowDynamic, endFlow}) => {
+			if (ctx.body == 1){
+			combo = '*Filete de Res en Salsa de Tocino*'
+			precio = 4.50
+			}
+			if (ctx.body == 2){
+			combo = '*Filete de Res en Salsa de Vino Tinto*'
+			precio = 4.50
+			}
+			if (ctx.body == 3){
+			combo = '*Filete de Res en Salsa de Tamarindo*'
+			precio = 4.50
+			}
+			if (ctx.body == 4){
+			combo = '*Filete de Pollo a la Mostaza y Miel*'
+			precio = 4.50
+			}
+			if (ctx.body == 5){
+			combo = '*Filete de Pollo en Salsa de Champiñones*'
+			precio = 4.50
+			}
+			if (ctx.body == 6){
+			combo = '*Chuleta de Cerdo en Salsa de Maracuya*'
+			precio = 4.50
+			}
+			if (ctx.body == 7){
+			combo = '*Chuleta de Cerdo en Salsa Agridulce*'
+			precio = 4.50
+			}
+			if (ctx.body == 8){
+			combo = '*Chuleta de Cerdo en Salsa Ranchera*'
+			precio = 4.50
+			}
+			if (ctx.body == 9){
+			combo = '*Costilla de Cerdo en Salsa BBQ*'
+			precio = 5.00
+			}
+			if (ctx.body == 10){
+			combo = '*Milanesa de Res o Pollo*'
+			precio = 4.50
+			}
+			if (ctx.body == 11){
+			combo = '*Milanesa de Res o Pollo*'
+			precio = 4.50
+			}
+			if (ctx.body != 11)
+			return endFlow({body: 'Opcion no valida', 
+			buttons:[{body:'⬅️ Volver al Inicio' }]
+			})
+		}
+	)
+
+	.addAnswer(['Ingresa la Cantidad de Platos Fuertes que deseas'], {capture: true},
+
+		async (ctx, {flowDynamic, endFlow}) => {
+			cant = ctx.body 
+			return flowDynamic(
+				`Tu orden de *${cant}* Plato(S) Fuerte ${combo} estara lista en unos minutos, el Valor de tu Orden es de *$ ${cant*precio}*.`,
 			)
 		}
 	 )
@@ -272,13 +353,13 @@ const flowPrincipal = addKeyword(['hola', 'buenos dias', 'buenas noches', 'ole',
 			'2 *Hamburguesas*',
 			'3 *Piqueos*',
 			'4 *Parrilladas*',
-			'5 *Plato Fuertes*',
+			'5 *Platos Fuertes*',
 			'6 *Mariscos*',
 			'7 *Spaguettis',
 		],
 		null,
 		null,
-		[flowPiqueos, flowHambur, flowAlitas, flowParrillada]
+		[flowPiqueos, flowHambur, flowAlitas, flowParrillada, flowPlatos]
 	)
 
 const main = async () => {
