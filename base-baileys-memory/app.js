@@ -262,7 +262,7 @@ const flowPiqueos = addKeyword(['3','piqueos', 'piqueo'])
 	.addAnswer(['Ayudanos con tu dirección para enviar tu pedido.'],{capture: true})
 	.addAnswer(['Listo enviaremos tu pedido, gracias por tu compra'])	
 
-	const flowPlatos = addKeyword(['4','platos', 'platos fuerte', 'fuerte', 'plato'])
+const flowPlatos = addKeyword(['5','platos', 'platos fuerte', 'fuerte', 'plato'])
 	.addAnswer('Escoge con un numero tu Plato Fuerte')
 	.addAnswer(
 		[
@@ -343,6 +343,88 @@ const flowPiqueos = addKeyword(['3','piqueos', 'piqueo'])
 	.addAnswer(['Ayudanos con tu dirección para enviar tu pedido.'],{capture: true})
 	.addAnswer(['Listo enviaremos tu pedido, gracias por tu compra'])	
 
+const flowMariscos = addKeyword(['6','Mariscos'])
+	.addAnswer('Escoge con un numero tu plato de Mariscos')
+	.addAnswer(
+		[
+			'1 *Camarones a la Diabla*     $ 5,00', 
+			'2 *Chicharron de Camaron*     $ 5,00',
+			'3 *Pescado a la Plancha*      $ 5,00', 
+		],{capture: true},
+
+		async (ctx, {flowDynamic, endFlow}) => {
+			if (ctx.body == 1){
+			combo = '*Camarones a la Diabla*'
+			precio = 5.00
+			}
+			if (ctx.body == 2){
+			combo = '*Chicharron de Camaron*'
+			precio = 5.00
+			}
+			if (ctx.body == 3){
+			combo = '*Pescado a la Plancha*'
+			precio = 5.00
+			}
+			if (ctx.body != 6)
+			return endFlow({body: 'Opcion no valida', 
+			buttons:[{body:'⬅️ Volver al Inicio' }]
+			})
+		}
+	)
+
+	.addAnswer(['Ingresa la Cantidad de Platos de Maricos que deseas'], {capture: true},
+
+		async (ctx, {flowDynamic, endFlow}) => {
+			cant = ctx.body 
+			return flowDynamic(
+				`Tu orden de *${cant}* Plato de ${combo} estara lista en unos minutos, el Valor de tu Orden es de *$ ${cant*precio}*.`,
+			)
+		}
+	 )
+	.addAnswer(['Ayudanos con tu dirección para enviar tu pedido.'],{capture: true})
+	.addAnswer(['Listo enviaremos tu pedido, gracias por tu compra'])
+
+const flowSpaguetis = addKeyword(['7','Spaguetis', 'spaguettis'])
+	.addAnswer('Escoge con un numero tu plato de Spaguettis')
+	.addAnswer(
+		[
+			'1 *Spaguetti a la Bolognesa*  $ 4,50', 
+			'2 *Spaguetti a la Carbonara*  $ 4,50',
+			'3 *Carbonara con Camarones*   $ 5,50', 
+		],{capture: true},
+
+		async (ctx, {flowDynamic, endFlow}) => {
+			if (ctx.body == 1){
+			combo = '*Spaguetti a la Bolognesa*'
+			precio = 4.50
+			}
+			if (ctx.body == 2){
+			combo = '*Spaguetti a la Carbonara*'
+			precio = 5.00
+			}
+			if (ctx.body == 3){
+			combo = '*Carbonara con Camarones*'
+			precio = 5.00
+			}
+			if (ctx.body != 6)
+			return endFlow({body: 'Opcion no valida', 
+			buttons:[{body:'⬅️ Volver al Inicio' }]
+			})
+		}
+	)
+
+	.addAnswer(['Ingresa la Cantidad de Platos de Spaguettis que deseas'], {capture: true},
+
+		async (ctx, {flowDynamic, endFlow}) => {
+			cant = ctx.body 
+			return flowDynamic(
+				`Tu orden de *${cant}* Plato de ${combo} estara lista en unos minutos, el Valor de tu Orden es de *$ ${cant*precio}*.`,
+			)
+		}
+	 )
+	.addAnswer(['Ayudanos con tu dirección para enviar tu pedido.'],{capture: true})
+	.addAnswer(['Listo enviaremos tu pedido, gracias por tu compra'])
+
 const flowPrincipal = addKeyword(['hola', 'buenos dias', 'buenas noches', 'ole', 'alo'])
 	.addAnswer('Hola bienvenido a *Amaranto*')
 	.addAnswer(
@@ -355,11 +437,11 @@ const flowPrincipal = addKeyword(['hola', 'buenos dias', 'buenas noches', 'ole',
 			'4 *Parrilladas*',
 			'5 *Platos Fuertes*',
 			'6 *Mariscos*',
-			'7 *Spaguettis',
+			'7 *Spaguettis*',
 		],
 		null,
 		null,
-		[flowPiqueos, flowHambur, flowAlitas, flowParrillada, flowPlatos]
+		[flowPiqueos, flowHambur, flowAlitas, flowParrillada, flowPlatos, flowMariscos, flowSpaguetis]
 	)
 
 const main = async () => {
